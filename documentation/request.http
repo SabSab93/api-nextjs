@@ -38,7 +38,7 @@ Content-type : application/json
 
 {
     "data": {
-        "title": "QCM numero1: Choux ou brocoli"
+        "title": "Choux ou brocoli"
     }
 }
 ###
@@ -55,30 +55,26 @@ Content-type : application/json
 
 ###
 
-###POSt question
+###POST question
 POST http://localhost:3000/api/questions
 Content-type : application/json
 
 {
     "data": {
-        "content": "Quel légume est riche en vitamine C et en fibres ?",
+        "content": "Quel légume est souvent utilisé pour faire des smoothies verts ?",
         "qcmId":1
     }
 }
 ###
 ###GET de tous les question
-GET http://localhost:3000/api/questions
+GET http://localhost:3000/api/qcms/1/
 Content-type : application/json
 
 ###
 
-###GET de la question 1
-PUT  http://localhost:3000/api/qcms/1
+###GET de la question
+PUT  http://localhost:3000/api/qcms
 Content-type : application/json
-
-{
-    "title": "Choux ou brocoli"
-}
 
 
 ### POST choice
@@ -88,8 +84,20 @@ Content-type : application/json
 {
     "data": {
         "isCorrect": false, 
-        "response": "Chou rouge",
-        "questionId":1
+        "response": "Chou romanesco",
+        "questionId":3
+    }
+}
+
+### PUT choice
+PUT  http://localhost:3000/api/choices/7
+Content-type : application/json
+
+{
+    "data": {
+        "response": "Patate douce",
+        "isCorrect": false,
+        "questionId": 2
     }
 }
 
