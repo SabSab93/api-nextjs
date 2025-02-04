@@ -12,7 +12,7 @@ export const POST = async (request: NextRequest)=> {
             title:body.data.title
         }
     })
-    return NextResponse.json({message:`nouveau QMC numero : ${body.data.id}, titre: ${body.data.title}` })
+    return NextResponse.json({message:`nouveau QMC numero : ${newQcm.id}, titre: ${newQcm.title}` })
 };
 
 

@@ -3,35 +3,37 @@ import {PrismaClient} from "@prisma/client";
 
 const prisma = new PrismaClient()
 
-export const GET = async (
-    request: NextRequest,
-    { params }: { params: { qcmId: string } }
-): Promise<NextResponse> => {
-    const qcmId = parseInt(params.qcmId, 10);
+// export const GET = async (
+//     request: NextRequest,
+//     { params }: { params: { qcmId: string } }
+// ): Promise<NextResponse> => {
+//     const qcmId = parseInt(params.qcmId, 10);
 
-    if (isNaN(qcmId)) {
-        return NextResponse.json({ message: "ID du QCM invalide" }, { status: 400 });
-    }
+//     if (isNaN(qcmId)) {
+//         return NextResponse.json({ message: "ID du QCM invalide" }, { status: 400 });
+//     }
 
-    const qcm = await prisma.qcm.findUnique({
-        where: { id: qcmId },
-        include: { questions: true },
-    });
+//     const qcm = await prisma.qcm.findUnique({
+//         where: { id: qcmId },
+//         include: { questions: true },
+//     });
 
-    if (!qcm) {
-        return NextResponse.json({ message: `QCM ${qcmId} non trouvé` }, { status: 404 });
-    }
+//     if (!qcm) {
+//         return NextResponse.json({ message: `QCM ${qcmId} non trouvé` }, { status: 404 });
+//     }
 
-    return NextResponse.json(qcm, { status: 200 });
-};
+//     return NextResponse.json(qcm, { status: 200 });
+// };
 
 
 export const PUT = async (
     request: NextRequest,
-    { params }: { params: { id: string } }
+    {
+        params
+    }: { params: Promise <{ id: string }> }
 ): Promise<NextResponse> => {
-    try {
-        const qcmId = parseInt(params.id, 10);
+        const {id} = await params
+        const qcmId = parseInt(id, 10);
 
         // Vérifier si l'ID est un nombre valide
         if (isNaN(qcmId)) {
@@ -70,8 +72,4 @@ export const PUT = async (
             { message: `QCM mis à jour avec succès`, qcm: updatedQcm },
             { status: 200 }
         );
-    } catch (error) {
-        console.error("❌ Erreur lors de la mise à jour du QCM :", error);
-        return NextResponse.json({ message: "Erreur interne du serveur" }, { status: 500 });
-    }
 };

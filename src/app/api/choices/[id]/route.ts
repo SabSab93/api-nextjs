@@ -5,9 +5,12 @@ const prisma = new PrismaClient();
 
 export const PUT = async (
     request: NextRequest,
-    { params }: { params: { qcmid: string } }
+    {
+        params
+    }: { params: Promise <{ qcmId: string }> }
 ): Promise<NextResponse> => {
-    const choiceId = parseInt(params.qcmid, 10);
+    const {qcmId} = await params
+    const choiceId = parseInt(qcmId, 10);
     const body = await request.json();
 
     const updatedChoice = await prisma.choice.update({
@@ -26,11 +29,10 @@ export const PUT = async (
 };
 
 
-export const GET = async (request: NextRequest, 
-    {
-    params: {qcmid}
-    }: {params: {qcmid:string} } 
-) => {
-    return NextResponse.json({message: {qcmid}}, {status:210});
-};
+export const GET =async ()=> {
+    const choice = await prisma.choice.findMany({})
+    return NextResponse.json({choice});
+}
+
+
 
