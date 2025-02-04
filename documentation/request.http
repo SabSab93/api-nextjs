@@ -19,3 +19,83 @@ Content-type : application/json
 
 
 
+###GET avec element
+POST http://localhost:3000/api/toto
+Content-type : application/json
+
+{
+    "data": {
+        "name": "Sabrina"
+    }
+}
+###
+
+
+
+###POST avec element
+POST http://localhost:3000/api/qcm
+Content-type : application/json
+
+{
+    "data": {
+        "title": "QCM numero1: Choux ou brocoli"
+    }
+}
+###
+
+###GET de tous les qcm
+GET http://localhost:3000/api/qcms
+Content-type : application/json
+
+###
+
+###GET de tous les qcm
+GET http://localhost:3000/api/qcm/1
+Content-type : application/json
+
+###
+
+###POSt question
+POST http://localhost:3000/api/questions
+Content-type : application/json
+
+{
+    "data": {
+        "content": "Quel légume est riche en vitamine C et en fibres ?",
+        "qcmId":1
+    }
+}
+###
+###GET de tous les question
+GET http://localhost:3000/api/questions
+Content-type : application/json
+
+###
+
+###GET de la question 1
+PUT  http://localhost:3000/api/qcms/1
+Content-type : application/json
+
+{
+    "title": "Choux ou brocoli"
+}
+
+
+### POST choice
+POST  http://localhost:3000/api/choices
+Content-type : application/json
+
+{
+    "data": {
+        "isCorrect": false, 
+        "response": "Chou rouge",
+        "questionId":1
+    }
+}
+
+
+### GET choice
+GET  http://localhost:3000/api/choices
+Content-type : application/json
+
+

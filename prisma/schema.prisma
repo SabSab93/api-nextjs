@@ -7,19 +7,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
+model Qcm {
+  id        Int        @id @default(autoincrement())
   title     String
-  content   String?
-  published Boolean @default(false)
-  authorId  Int
-  userid    Int
-  User      User    @relation(fields: [userid], references: [id])
+  questions Question[]
+}
+
+model Question {
+  id      Int      @id @default(autoincrement())
+  content String
+  Choices  Choice[]
+  qcmId   Int 
+  qcm    Qcm      @relation(fields: [qcmId], references: [id])
+}
+
+model Choice {
+  id         Int      @id @default(autoincrement())
+  response   String
+  isCorrect  Boolean
+  questionId Int
+  users      Answer[]
+  questions  Question @relation(fields: [questionId], references: [id])
+}
+
+model Answer {
+  choiceId    Int
+  userId      Int
+  answerValue Boolean
+  choice      Choice  @relation(fields: [choiceId], references: [id])
+  user        User    @relation(fields: [userId], references: [id])
+
+  @@id([choiceId, userId])
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  Post  Post[]
+  id      Int      @id @default(autoincrement())
+  name    String
+  choices Answer[]
 }
