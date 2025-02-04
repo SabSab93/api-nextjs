@@ -5,36 +5,25 @@ const prisma = new PrismaClient()
 
 export const GET = async (
     request: NextRequest,
-    { params }: { params: { id: string } }
+    { params }: { params: { qcmId: string } }
 ): Promise<NextResponse> => {
-    try {
-        const qcmId = parseInt(params.id, 10);
+    const qcmId = parseInt(params.qcmId, 10);
 
-        // Vérification si l'ID est un nombre valide
-        if (isNaN(qcmId)) {
-            return NextResponse.json({ message: "ID invalide" }, { status: 400 });
-        }
-
-        // Récupérer le QCM avec l'ID donné
-        const qcm = await prisma.qcm.findUnique({
-            where: { id: qcmId },
-            select: { title: true },
-        });
-
-        if (!qcm) {
-            return NextResponse.json({ message: `QCM avec l'ID ${qcmId} non trouvé` }, { status: 404 });
-        }
-
-        return NextResponse.json(
-            { message: `Le titre du QCM numéro ${qcmId} est : ${qcm.title}` },
-            { status: 200 }
-        );
-    } catch (error) {
-        console.error("Erreur lors de la récupération du QCM :", error);
-        return NextResponse.json({ message: "Erreur interne du serveur" }, { status: 500 });
+    if (isNaN(qcmId)) {
+        return NextResponse.json({ message: "ID du QCM invalide" }, { status: 400 });
     }
-};
 
+    const qcm = await prisma.qcm.findUnique({
+        where: { id: qcmId },
+        include: { questions: true },
+    });
+
+    if (!qcm) {
+        return NextResponse.json({ message: `QCM ${qcmId} non trouvé` }, { status: 404 });
+    }
+
+    return NextResponse.json(qcm, { status: 200 });
+};
 
 
 export const PUT = async (

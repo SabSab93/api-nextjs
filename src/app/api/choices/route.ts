@@ -22,6 +22,7 @@ export const POST = async (request: NextRequest)=> {
 
 
 export const GET =async ()=> {
-    const question = await prisma.qcm.findMany({})
-    return NextResponse.json({question});
+    const choices = await prisma.choice.findMany({})
+    return NextResponse.json({choices});
 }
+
